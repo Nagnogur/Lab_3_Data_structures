@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,28 +26,46 @@ namespace Lab_3
 
             string input = Console.ReadLine().Replace(" ", "");
             int length = input.Length;
+            bool negative = false;
 
             for (int i = 0; i < length; i++)
             {
                 if (input[i] == '(')  //   (
                 {
 
+                    negative = false;
                 }
                 
                 else if (input[i] == ')')   //      )
                 {
 
+                    negative = false;
                 }
 
-                else if (opers.Contains(input[i]))      //      +,-,*,/,^
+                else if (!negative && opers.Contains(input[i]))      //      +,-,*,/,^
                 {
-
+                    int index = Array.IndexOf(opers, input[i]);
+                    if (operatorStack.Count == 0 || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 < operators[index].Item2))
+                    {
+                        operatorStack.Push(input[i]);
+                    }
+                    else
+                    {
+                        while (operatorStack.Count > 0 && (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 >= operators[index].Item2))
+                        {
+                            output.Push(Convert.ToString(operatorStack.Peek()));
+                            operatorStack.Pop();
+                        }
+                        operatorStack.Push(input[i]);
+                    }
+                    negative = true;
                 }
                 
-                else if (nums.Contains(input[i]))      //          numbers
+                else if (negative || nums.Contains(input[i]))      //          numbers
                 {
                     s += input[i];
-                    if (i != length && nums.Contains(input[i + 1]))
+                    negative = false;
+                    if (i != length - 1 && nums.Contains(input[i + 1]))
                     {
                         i++;
                         while(i < length && nums.Contains(input[i]))
@@ -56,11 +75,22 @@ namespace Lab_3
                         }
                         i--;
                     }
-                    Console.WriteLine(s);
+                    output.Push(s);
                     s = "";
                 }
+                PrintValues(output);
+                Console.Write("  ||  ");
+                PrintValues(operatorStack);
+                Console.WriteLine();
             }
+            
             Console.ReadKey();
+        }
+
+        public static void PrintValues(IEnumerable myCollection)
+        {
+            foreach (Object obj in myCollection)
+                Console.Write("{0} ", obj);
         }
     }
 }
