@@ -18,8 +18,17 @@ namespace Lab_3
             operators[4] = Tuple.Create('^', 4, "right");
 
             string s = "";
+            Stack<string> output = new Stack<string>();
+            Stack<char> operatorStack = new Stack<char>();
 
+            string input = Console.ReadLine().Replace(" ", "");
+            Console.WriteLine(input);
+            Console.ReadKey();
 
+            for (int i = 0; i < input.Length; i++)
+            {
+
+            }
         }
     }
 }
