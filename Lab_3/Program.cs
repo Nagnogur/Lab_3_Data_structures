@@ -32,26 +32,31 @@ namespace Lab_3
             {
                 if (input[i] == '(')  //   (
                 {
-
+                    operatorStack.Push(input[i]);
                     negative = false;
                 }
                 
                 else if (input[i] == ')')   //      )
                 {
-
+                    while (operatorStack.Peek() != '(')
+                    {
+                        output.Push(Convert.ToString(operatorStack.Peek()));
+                        operatorStack.Pop();
+                    }
+                    operatorStack.Pop();
                     negative = false;
                 }
 
                 else if (!negative && opers.Contains(input[i]))      //      +,-,*,/,^
                 {
                     int index = Array.IndexOf(opers, input[i]);
-                    if (operatorStack.Count == 0 || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 < operators[index].Item2))
+                    if (operatorStack.Count == 0 || operatorStack.Peek() == '(' || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 < operators[index].Item2))
                     {
                         operatorStack.Push(input[i]);
                     }
                     else
                     {
-                        while (operatorStack.Count > 0 && (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 >= operators[index].Item2))
+                        while (operatorStack.Count > 0 && (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 > operators[index].Item2 || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 == operators[index].Item2 && operators[index].Item3 == "left")) && operatorStack.Peek() != '(')
                         {
                             output.Push(Convert.ToString(operatorStack.Peek()));
                             operatorStack.Pop();
@@ -83,7 +88,15 @@ namespace Lab_3
                 PrintValues(operatorStack);
                 Console.WriteLine();
             }
-            
+            while(operatorStack.Count > 0)
+            {
+                output.Push(Convert.ToString(operatorStack.Peek()));
+                operatorStack.Pop();
+            }
+            PrintValues(output);
+            Console.Write("  ||  ");
+            PrintValues(operatorStack);
+            Console.WriteLine();
             Console.ReadKey();
         }
 
