@@ -26,21 +26,21 @@ namespace Lab_3
 
             string input = Console.ReadLine().Replace(" ", "");
             int length = input.Length;
-            bool negative = false;
+            bool negative = true;
 
             for (int i = 0; i < length; i++)
             {
                 if (input[i] == '(')  //   (
                 {
                     operatorStack.Push(input[i]);
-                    negative = false;
+                    negative = true;
                 }
                 
                 else if (input[i] == ')')   //      )
                 {
                     while (operatorStack.Peek() != '(')
                     {
-                        output.Push(Convert.ToString(operatorStack.Peek()));
+                        CalcExpression(output, operatorStack.Peek());
                         operatorStack.Pop();
                     }
                     operatorStack.Pop();
@@ -56,9 +56,10 @@ namespace Lab_3
                     }
                     else
                     {
-                        while (operatorStack.Count > 0 && (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 > operators[index].Item2 || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 == operators[index].Item2 && operators[index].Item3 == "left")) && operatorStack.Peek() != '(')
+                        while (operatorStack.Count > 0 && operatorStack.Peek() != '(' && (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 > operators[index].Item2 || (operators[Array.IndexOf(opers, operatorStack.Peek())].Item2 == operators[index].Item2 && operators[index].Item3 == "left")))
                         {
-                            output.Push(Convert.ToString(operatorStack.Peek()));
+
+                            CalcExpression(output, operatorStack.Peek());
                             operatorStack.Pop();
                         }
                         operatorStack.Push(input[i]);
@@ -83,20 +84,19 @@ namespace Lab_3
                     output.Push(s);
                     s = "";
                 }
-                PrintValues(output);
-                Console.Write("  ||  ");
-                PrintValues(operatorStack);
-                Console.WriteLine();
+                
+
             }
             while(operatorStack.Count > 0)
             {
-                output.Push(Convert.ToString(operatorStack.Peek()));
+                CalcExpression(output, operatorStack.Peek());
                 operatorStack.Pop();
             }
             PrintValues(output);
             Console.Write("  ||  ");
             PrintValues(operatorStack);
             Console.WriteLine();
+            Console.WriteLine(output.Peek());
             Console.ReadKey();
         }
 
@@ -105,5 +105,37 @@ namespace Lab_3
             foreach (Object obj in myCollection)
                 Console.Write("{0} ", obj);
         }
+
+        public static void CalcExpression(Stack<string> stack1, char action)
+        {
+            int u = Convert.ToInt32(stack1.Peek());
+            stack1.Pop();
+            int v = Convert.ToInt32(stack1.Peek());
+            stack1.Pop();
+            int ans = 0;
+
+            if (action == '+')
+            {
+                ans =  v + u;
+            }
+            else if (action == '-')
+            {
+                ans = v - u;
+            }
+            else if (action == '*')
+            {
+                ans = v * u;
+            }
+            else if (action == '/')
+            {
+                ans = v / u;
+            }
+            else if (action == '^')
+            {
+                ans = (int)Math.Pow(v, u);
+            }
+            stack1.Push(Convert.ToString(ans));
+        }
+
     }
 }
