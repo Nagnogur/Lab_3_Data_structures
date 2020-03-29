@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_3
 {
+    // 3 +4 *2/( 1- 5)^ 2^3
     class Program
     {
         static void Main(string[] args)
@@ -24,7 +25,13 @@ namespace Lab_3
             Stack<string> output = new Stack<string>();
             Stack<char> operatorStack = new Stack<char>();
 
-            string input = Console.ReadLine().Replace(" ", "");
+            string input = "";
+            foreach (string arg in args)
+            {
+               // Console.WriteLine(arg);
+                input += arg;
+            }
+       //     Console.WriteLine(input);
             int length = input.Length;
             bool negative = true;
 
@@ -92,11 +99,11 @@ namespace Lab_3
                 CalcExpression(output, operatorStack.Peek());
                 operatorStack.Pop();
             }
-            PrintValues(output);
+            /*PrintValues(output);
             Console.Write("  ||  ");
             PrintValues(operatorStack);
-            Console.WriteLine();
-            Console.WriteLine(output.Peek());
+            Console.WriteLine();*/
+            Console.WriteLine("Result: {0}", output.Peek());
             Console.ReadKey();
         }
 
