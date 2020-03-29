@@ -22,10 +22,12 @@ namespace Lab_3
             operators.Add(Tuple.Create('^', 4, "right"));
 
             string s = "";
-            Stack<string> output = new Stack<string>();
+            //  Stack<string> output = new Stack<string>();
+            MyStack output = new MyStack();
             Stack<char> operatorStack = new Stack<char>();
 
             string input = "";
+
             foreach (string arg in args)
             {
                // Console.WriteLine(arg);
@@ -37,6 +39,8 @@ namespace Lab_3
 
             for (int i = 0; i < length; i++)
             {
+ //               output.PrintStack();
+ //               Console.WriteLine(output.Count);
                 if (input[i] == '(')  //   (
                 {
                     operatorStack.Push(input[i]);
@@ -104,16 +108,10 @@ namespace Lab_3
             PrintValues(operatorStack);
             Console.WriteLine();*/
             Console.WriteLine("Result: {0}", output.Peek());
-            Console.ReadKey();
+  //          Console.ReadKey();
         }
 
-        public static void PrintValues(IEnumerable myCollection)
-        {
-            foreach (Object obj in myCollection)
-                Console.Write("{0} ", obj);
-        }
-
-        public static void CalcExpression(Stack<string> stack1, char action)
+        public static void CalcExpression(MyStack stack1, char action)
         {
             int u = Convert.ToInt32(stack1.Peek());
             stack1.Pop();
