@@ -23,9 +23,9 @@ namespace Lab_3
 
             string s = "";
             //  Stack<string> output = new Stack<string>();
-            MyStack output = new MyStack();
-            Stack<char> operatorStack = new Stack<char>();
-
+            MyStack<string> output = new MyStack<string>();
+            // Stack<char> operatorStack = new Stack<char>();
+            MyStack<char> operatorStack = new MyStack<char>();
             string input = "";
 
             foreach (string arg in args)
@@ -111,7 +111,7 @@ namespace Lab_3
   //          Console.ReadKey();
         }
 
-        public static void CalcExpression(MyStack stack1, char action)
+        public static void CalcExpression(MyStack<string> stack1, char action)
         {
             int u = Convert.ToInt32(stack1.Peek());
             stack1.Pop();

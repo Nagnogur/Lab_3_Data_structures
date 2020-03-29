@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Lab_3
 {
-    class MyStack
+    class MyStack<T>
     {
-        private string[] stack = new string[32767];
+        private T[] stack = new T[32767];
         private int count = 0;
         public int Count { get { return count; } }
 
-        public void Push(string s)
+        public void Push(T s)
         {
             stack[count] = s;
             count++;
@@ -21,7 +21,7 @@ namespace Lab_3
         {
             count--;
         }
-        public string Peek()
+        public T Peek()
         {
             return stack[count - 1];
         }
